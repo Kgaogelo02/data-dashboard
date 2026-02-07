@@ -294,7 +294,7 @@ For questions, issues, or suggestions:
 - Plotly for interactive visualizations
 - SQLAlchemy for elegant ORM
 - The Python community
-  [You can check it here](https://data-dashboard-ixwt7jzl8kpeknnseo5oga.streamlit.app/)
+- [You can check it here](https://data-dashboard-ixwt7jzl8kpeknnseo5oga.streamlit.app/)
 
 ---
 
