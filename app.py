@@ -12,11 +12,6 @@ import sys
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-from src.database import DatabaseManager
-from src.analytics import DataAnalyzer
-from src.visualizations import Visualizer
-from src.export_utils import DataExporter
-
 # Page configuration - MUST be first Streamlit command
 st.set_page_config(
     page_title="Data Dashboard",
@@ -76,11 +71,13 @@ st.markdown("""
 @st.cache_resource
 def get_database_manager():
     """Get cached database manager instance."""
+    from src.database import DatabaseManager
     return DatabaseManager('data/dashboard.db')
 
 @st.cache_resource
 def get_analyzer():
     """Get cached data analyzer instance."""
+    from src.analytics import DataAnalyzer
     db_manager = get_database_manager()
     return DataAnalyzer(db_manager)
 
@@ -94,90 +91,91 @@ def main():
     st.markdown("---")
     
     # ==================== DATABASE AUTO-INITIALIZATION ====================
-# Check if database exists, if not create it automatically
-if not os.path.exists('data/dashboard.db'):
-    st.info("🔄 **Initializing database for the first time...**")
+    # Check if database exists, if not create it automatically
+    if not os.path.exists('data/dashboard.db'):
+        st.info("🔄 **Initializing database for the first time...**")
+        
+        # Create necessary directories
+        os.makedirs('data', exist_ok=True)
+        os.makedirs('exports', exist_ok=True)
+        
+        try:
+            # Show progress
+            progress_bar = st.progress(0)
+            status_text = st.empty()
+            
+            # Step 1: Create database
+            status_text.text("Step 1/6: Creating database tables...")
+            from src.database import DatabaseManager
+            db_manager = DatabaseManager('data/dashboard.db')
+            progress_bar.progress(20)
+            
+            # Step 2: Generate sales data
+            status_text.text("Step 2/6: Generating sample sales data...")
+            from src.data_utils import DataGenerator
+            sales_df = DataGenerator.generate_sales_data(1000)  # Smaller dataset for faster loading
+            progress_bar.progress(40)
+            
+            # Step 3: Clean data
+            status_text.text("Step 3/6: Cleaning and validating data...")
+            from src.data_utils import DataCleaner
+            sales_df = DataCleaner.clean_sales_data(sales_df)
+            progress_bar.progress(60)
+            
+            # Step 4: Generate reference data
+            status_text.text("Step 4/6: Creating reference tables...")
+            region_df = DataGenerator.generate_region_data()
+            category_df = DataGenerator.generate_category_data()
+            progress_bar.progress(80)
+            
+            # Step 5: Load all data
+            status_text.text("Step 5/6: Loading data into database...")
+            from src.data_utils import DataLoader
+            loader = DataLoader(db_manager)
+            loader.load_sales_data(sales_df)
+            loader.load_region_data(region_df)
+            loader.load_category_data(category_df)
+            progress_bar.progress(100)
+            
+            # Step 6: Success message
+            status_text.text("✅ Database initialized successfully!")
+            st.success("**Database ready! Refreshing dashboard...**")
+            
+            # Wait 2 seconds and refresh
+            import time
+            time.sleep(2)
+            st.rerun()
+            
+        except Exception as e:
+            st.error(f"❌ **Error initializing database:** {str(e)}")
+            st.info("""
+            **Troubleshooting:**
+            1. Check if all dependencies are installed
+            2. Verify file permissions
+            3. Try refreshing the page
+            """)
+            st.stop()
     
-    # Create necessary directories
-    os.makedirs('data', exist_ok=True)
-    os.makedirs('exports', exist_ok=True)
-    
+    # Initialize analyzer
     try:
-        # Show progress
-        progress_bar = st.progress(0)
-        status_text = st.empty()
-        
-        # Step 1: Create database
-        status_text.text("Step 1/6: Creating database tables...")
-        from src.database import DatabaseManager
-        db_manager = DatabaseManager('data/dashboard.db')
-        progress_bar.progress(20)
-        
-        # Step 2: Generate sales data
-        status_text.text("Step 2/6: Generating sample sales data...")
-        from src.data_utils import DataGenerator
-        sales_df = DataGenerator.generate_sales_data(1000)  # Smaller dataset for faster loading
-        progress_bar.progress(40)
-        
-        # Step 3: Clean data
-        status_text.text("Step 3/6: Cleaning and validating data...")
-        from src.data_utils import DataCleaner
-        sales_df = DataCleaner.clean_sales_data(sales_df)
-        progress_bar.progress(60)
-        
-        # Step 4: Generate reference data
-        status_text.text("Step 4/6: Creating reference tables...")
-        region_df = DataGenerator.generate_region_data()
-        category_df = DataGenerator.generate_category_data()
-        progress_bar.progress(80)
-        
-        # Step 5: Load all data
-        status_text.text("Step 5/6: Loading data into database...")
-        from src.data_utils import DataLoader
-        loader = DataLoader(db_manager)
-        loader.load_sales_data(sales_df)
-        loader.load_region_data(region_df)
-        loader.load_category_data(category_df)
-        progress_bar.progress(100)
-        
-        # Step 6: Success message
-        status_text.text("✅ Database initialized successfully!")
-        st.success("**Database ready! Refreshing dashboard...**")
-        
-        # Wait 2 seconds and refresh
-        import time
-        time.sleep(2)
-        st.rerun()
-        
+        analyzer = get_analyzer()
+        from src.visualizations import Visualizer
+        visualizer = Visualizer()
     except Exception as e:
-        st.error(f"❌ **Error initializing database:** {str(e)}")
-        st.info("""
-        **Troubleshooting:**
-        1. Check if all dependencies are installed
-        2. Verify file permissions
-        3. Try refreshing the page
-        """)
+        st.error(f"❌ **Error connecting to database:** {e}")
+        st.info("The database exists but cannot be accessed.")
+        
+        # Add a retry button
+        if st.button("🔄 Retry Database Connection"):
+            st.rerun()
+        
+        # Add option to recreate database
+        if st.button("🗑️ Recreate Database (Delete and Start Over)"):
+            if os.path.exists('data/dashboard.db'):
+                os.remove('data/dashboard.db')
+            st.rerun()
+        
         st.stop()
-
-# Initialize analyzer
-try:
-    analyzer = get_analyzer()
-    visualizer = Visualizer()
-except Exception as e:
-    st.error(f"❌ **Error connecting to database:** {e}")
-    st.info("The database exists but cannot be accessed.")
-    
-    # Add a retry button
-    if st.button("🔄 Retry Database Connection"):
-        st.rerun()
-    
-    # Add option to recreate database
-    if st.button("🗑️ Recreate Database (Delete and Start Over)"):
-        if os.path.exists('data/dashboard.db'):
-            os.remove('data/dashboard.db')
-        st.rerun()
-    
-    st.stop()
     
     # ==================== SIDEBAR - FILTERS ====================
     with st.sidebar:
