@@ -1,4 +1,4 @@
-# 📊 Data Dashboard Application
+#  Data Dashboard Application
 
 A professional, production-ready Python web application for interactive data exploration, analysis, and visualization. Built with Streamlit, SQLite, and Plotly.
 
@@ -7,16 +7,16 @@ A professional, production-ready Python web application for interactive data exp
 ![SQLite](https://img.shields.io/badge/SQLite-3-green.svg)
 ![License](https://img.shields.io/badge/License-MIT-yellow.svg)
 
-## 🎯 Purpose
+##  Purpose
 
 The Data Dashboard Application enables users to:
-- 📈 Explore large datasets with interactive filters
-- 📊 Visualize trends through dynamic charts and graphs
-- 🔍 Analyze data by categories, regions, and time periods
-- 💾 Export filtered data and generate comprehensive reports
-- 🎨 Gain insights through professional visualizations
+-  Explore large datasets with interactive filters
+-  Visualize trends through dynamic charts and graphs
+-  Analyze data by categories, regions, and time periods
+-  Export filtered data and generate comprehensive reports
+-  Gain insights through professional visualizations
 
-## ✨ Key Features
+##  Key Features
 
 ### 1. **Interactive Dashboard**
 - Real-time filtering by date ranges, categories, regions, and customer segments
@@ -51,7 +51,7 @@ The Data Dashboard Application enables users to:
 - Generate comprehensive multi-sheet summary reports
 - Timestamped file naming for easy tracking
 
-## 🛠️ Tech Stack
+##  Tech Stack
 
 | Component | Technology | Purpose |
 |-----------|-----------|---------|
@@ -64,7 +64,7 @@ The Data Dashboard Application enables users to:
 | **Visualization** | Plotly | Interactive charts |
 | **Export** | openpyxl | Excel file generation |
 
-## 📁 Project Structure
+##  Project Structure
 
 ```
 data-dashboard/
@@ -92,7 +92,7 @@ data-dashboard/
 |── tests/                 # Unit tests
 ```
 
-## 🚀 Installation & Setup
+##  Installation & Setup
 
 ### Prerequisites
 - Python 3.11 or higher
@@ -143,7 +143,7 @@ data-dashboard/
    - The app will automatically open at `http://localhost:8501`
    - If not, navigate to the URL shown in the terminal
 
-## 📖 Usage Guide
+##  Usage Guide
 
 ### Filtering Data
 
@@ -177,7 +177,7 @@ data-dashboard/
 3. **Summary Report**: Multi-sheet Excel with all key metrics
 
 
-## 🎨 Sample Dataset
+##  Sample Dataset
 
 The application includes a rich synthetic dataset with:
 
@@ -188,7 +188,7 @@ The application includes a rich synthetic dataset with:
 - **Realistic pricing** and quantity variations
 - **Seasonal patterns** and trends
 
-## 🔧 Customization
+##  Customization
 
 ### Using Your Own Data
 
@@ -222,14 +222,14 @@ def create_custom_chart(df, x_col, y_col):
     return fig
 ```
 
-## 🧪 Testing
+##  Testing
 
 Run the test suite (when implemented):
 ```bash
 pytest tests/
 ```
 
-## 📊 Performance Optimization
+##  Performance Optimization
 
 The application is optimized for:
 - **Fast queries**: Indexed database columns
@@ -237,7 +237,7 @@ The application is optimized for:
 - **Lazy loading**: Data loaded only when needed
 - **Responsive UI**: Minimal blocking operations
 
-## 🐛 Troubleshooting
+##  Troubleshooting
 
 ### Database Not Found
 **Error**: "Database not found! Please run init_db.py"
@@ -260,7 +260,7 @@ The application is optimized for:
 - Use predefined periods instead of "All Time"
 - Clear Streamlit cache: Press 'C' in the app and select "Clear cache"
 
-## 🤝 Contributing
+##  Contributing
 
 Contributions are welcome! Please:
 1. Fork the repository
@@ -269,7 +269,7 @@ Contributions are welcome! Please:
 4. Submit a pull request
 
 
-## 🔮 Future Enhancements
+##  Future Enhancements
 
 Potential features for future versions:
 - [ ] User authentication and multi-user support
@@ -283,12 +283,12 @@ Potential features for future versions:
 - [ ] Data import from various sources (CSV, Excel, APIs)
 - [ ] Custom dashboard builder
 
-## 📞 Support
+##  Support
 
 For questions, issues, or suggestions:
 - Contact via email : mabutsikgaogelo@gmail.com
 
-## 🙏 Acknowledgments
+##  Acknowledgments
 
 - Streamlit team for the amazing framework
 - Plotly for interactive visualizations
