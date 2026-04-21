@@ -12,7 +12,7 @@ import sys
 # Add parent directory to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Page configuration - MUST be first Streamlit command
+# Page configuration
 st.set_page_config(
     page_title="Data Dashboard",
     page_icon="📊",
@@ -20,7 +20,6 @@ st.set_page_config(
     initial_sidebar_state="expanded"
 )
 
-# Custom CSS - Fixed for visibility
 st.markdown("""
     <style>
     /* Header styling */
@@ -374,7 +373,7 @@ def main():
     
     st.markdown("---")
     
-    # ==================== CUSTOMER SEGMENT ANALYSIS ====================
+    # CUSTOMER SEGMENT ANALYSIS
     st.header(" Customer Segment Analysis")
     
     segment_col1, segment_col2 = st.columns(2)
