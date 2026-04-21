@@ -85,7 +85,7 @@ def main():
     """Main application function."""
     
     # Header
-    st.markdown('<div class="main-header">📊 Data Dashboard Application</div>', 
+    st.markdown('<div class="main-header">Data Dashboard Application</div>', 
                 unsafe_allow_html=True)
     st.markdown("Explore, analyze, and visualize your data with interactive charts and filters.")
     st.markdown("---")
@@ -93,7 +93,7 @@ def main():
     # ==================== DATABASE AUTO-INITIALIZATION ====================
     # Check if database exists, if not create it automatically
     if not os.path.exists('data/dashboard.db'):
-        st.info("🔄 **Initializing database for the first time...**")
+        st.info(" **Initializing database for the first time...**")
         
         # Create necessary directories
         os.makedirs('data', exist_ok=True)
@@ -138,7 +138,7 @@ def main():
             progress_bar.progress(100)
             
             # Step 6: Success message
-            status_text.text("✅ Database initialized successfully!")
+            status_text.text("Database initialized successfully!")
             st.success("**Database ready! Refreshing dashboard...**")
             
             # Wait 2 seconds and refresh
@@ -147,7 +147,7 @@ def main():
             st.rerun()
             
         except Exception as e:
-            st.error(f"❌ **Error initializing database:** {str(e)}")
+            st.error(f" **Error initializing database:** {str(e)}")
             st.info("""
             **Troubleshooting:**
             1. Check if all dependencies are installed
@@ -162,28 +162,28 @@ def main():
         from src.visualizations import Visualizer
         visualizer = Visualizer()
     except Exception as e:
-        st.error(f"❌ **Error connecting to database:** {e}")
+        st.error(f" **Error connecting to database:** {e}")
         st.info("The database exists but cannot be accessed.")
         
         # Add a retry button
-        if st.button("🔄 Retry Database Connection"):
+        if st.button("Retry Database Connection"):
             st.rerun()
         
         # Add option to recreate database
-        if st.button("🗑️ Recreate Database (Delete and Start Over)"):
+        if st.button("Recreate Database (Delete and Start Over)"):
             if os.path.exists('data/dashboard.db'):
                 os.remove('data/dashboard.db')
             st.rerun()
         
         st.stop()
     
-    # ==================== SIDEBAR - FILTERS ====================
+    # SIDEBAR - FILTERS
     with st.sidebar:
-        st.header("🔍 Filters")
+        st.header("Filters")
         st.markdown("---")
         
         # Date range filter
-        st.subheader("📅 Date Range")
+        st.subheader("Date Range")
         date_option = st.radio(
             "Select period:",
             ["Last 30 Days", "Last 90 Days", "Last 6 Months", "Last Year", "All Time", "Custom"],
@@ -218,7 +218,7 @@ def main():
         st.markdown("---")
         
         # Category filter
-        st.subheader("📦 Categories")
+        st.subheader("Categories")
         all_categories = ['Electronics', 'Clothing', 'Food & Beverage', 'Home & Garden', 'Sports & Outdoors']
         selected_categories = st.multiselect(
             "Select categories:",
@@ -229,7 +229,7 @@ def main():
         st.markdown("---")
         
         # Region filter
-        st.subheader("🌍 Regions")
+        st.subheader("Regions")
         all_regions = ['North America', 'Europe', 'Asia Pacific', 'Africa', 'Latin America', 'Middle East', 'Oceania']
         selected_regions = st.multiselect(
             "Select regions:",
@@ -259,15 +259,15 @@ def main():
         filter_categories, filter_regions, filter_segments
     )
     
-    # ==================== KEY METRICS ====================
-    st.header("📈 Key Metrics")
+    # KEY METRICS
+    st.header(" Key Metrics")
     
     if summary:
         col1, col2, col3, col4 = st.columns(4)
         
         with col1:
             st.metric(
-                label="💰 Total Revenue",
+                label=" Total Revenue",
                 value=f"${summary['total_revenue']:,.2f}"
             )
         
@@ -279,22 +279,22 @@ def main():
         
         with col3:
             st.metric(
-                label="📊 Avg Transaction Value",
+                label=" Avg Transaction Value",
                 value=f"${summary['avg_transaction_value']:,.2f}"
             )
         
         with col4:
             st.metric(
-                label="📦 Units Sold",
+                label=" Units Sold",
                 value=f"{summary['total_quantity_sold']:,}"
             )
     else:
-        st.warning("⚠️ No data available for the selected filters. Try adjusting your filter selections.")
+        st.warning(" No data available for the selected filters. Try adjusting your filter selections.")
     
     st.markdown("---")
     
-    # ==================== REVENUE TRENDS ====================
-    st.header("📊 Revenue Trends")
+    # REVENUE TRENDS
+    st.header(" Revenue Trends")
     
     trend_col1, trend_col2 = st.columns(2)
     
@@ -323,12 +323,12 @@ def main():
             )
             st.plotly_chart(fig_monthly, use_container_width=True)
         else:
-            st.info("📭 No monthly trend data available for selected filters")
+            st.info(" No monthly trend data available for selected filters")
     
     st.markdown("---")
     
-    # ==================== CATEGORY & REGION ANALYSIS ====================
-    st.header("🎯 Category & Region Analysis")
+    #  CATEGORY & REGION ANALYSIS
+    st.header(" Category & Region Analysis")
     
     analysis_col1, analysis_col2 = st.columns(2)
     
@@ -350,7 +350,7 @@ def main():
             )
             st.plotly_chart(fig_pie_category, use_container_width=True)
         else:
-            st.info("📭 No category data available")
+            st.info(" No category data available")
     
     with analysis_col2:
         st.subheader("By Region")
@@ -370,12 +370,12 @@ def main():
             )
             st.plotly_chart(fig_pie_region, use_container_width=True)
         else:
-            st.info("📭 No region data available")
+            st.info(" No region data available")
     
     st.markdown("---")
     
     # ==================== CUSTOMER SEGMENT ANALYSIS ====================
-    st.header("👥 Customer Segment Analysis")
+    st.header(" Customer Segment Analysis")
     
     segment_col1, segment_col2 = st.columns(2)
     
@@ -389,7 +389,7 @@ def main():
             )
             st.plotly_chart(fig_segment, use_container_width=True)
         else:
-            st.info("📭 No segment data available")
+            st.info(" No segment data available")
     
     with segment_col2:
         # Top products
@@ -401,12 +401,12 @@ def main():
             )
             st.plotly_chart(fig_products, use_container_width=True)
         else:
-            st.info("📭 No product data available")
+            st.info("No product data available")
     
     st.markdown("---")
     
-    # ==================== DETAILED PERFORMANCE TABLE ====================
-    st.header("📋 Category Performance Details")
+    # DETAILED PERFORMANCE TABLE
+    st.header(" Category Performance Details")
     
     performance = analyzer.get_category_performance(start_date, end_date)
     if not performance.empty:
@@ -422,8 +422,8 @@ def main():
     
     st.markdown("---")
     
-    # ==================== EXPORT SECTION ====================
-    st.header("💾 Export Data")
+    # EXPORT SECTION
+    st.header(" Export Data")
     st.markdown("Click any button below to download data directly to your computer")
     
     export_col1, export_col2, export_col3 = st.columns(3)
@@ -437,14 +437,14 @@ def main():
             # Convert to CSV for download
             csv = sales_data.to_csv(index=False).encode('utf-8')
             st.download_button(
-                label="📄 Download CSV",
+                label=" Download CSV",
                 data=csv,
                 file_name=f'sales_data_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv',
                 mime='text/csv',
                 use_container_width=True
             )
         else:
-            st.warning("⚠️ No data to export")
+            st.warning("No data to export")
     
     with export_col2:
         sales_data = analyzer.get_sales_data(
@@ -460,14 +460,14 @@ def main():
             buffer.seek(0)
             
             st.download_button(
-                label="📊 Download Excel",
+                label="Download Excel",
                 data=buffer,
                 file_name=f'sales_data_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx',
                 mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
                 use_container_width=True
             )
         else:
-            st.warning("⚠️ No data to export")
+            st.warning("No data to export")
     
     with export_col3:
         # Summary report with multiple sheets
@@ -494,7 +494,7 @@ def main():
         buffer.seek(0)
         
         st.download_button(
-            label="📈 Download Full Report",
+            label="Download Full Report",
             data=buffer,
             file_name=f'summary_report_{datetime.now().strftime("%Y%m%d_%H%M%S")}.xlsx',
             mime='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
